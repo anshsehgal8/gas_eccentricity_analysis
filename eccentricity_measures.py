@@ -10,7 +10,7 @@ import loaders
 
 
 
-def gas_eccentricity_diagnostics(filename):
+def gas_eccentricity_diagnostics(filename, output_filename):
     r     = loaders.get_dataset(filename, 'radius')
     dA    = loaders.get_dataset(filename, 'cell_area')
     vr    = loaders.get_dataset(filename, 'radial_velocity')
@@ -62,9 +62,7 @@ def gas_eccentricity_diagnostics(filename):
     kd06_e_vs_r   = (e2dM_binned / dM_binned)**0.5
     kd06_e_global = (e2dM_binned[radial_cut].sum() / dM_binned[radial_cut].sum())**0.5
 
-    newfilename = filename.replace('diagnostics','eccentricity_measures')
-
-    h5f = h5py.File(newfilename, 'w')
+    h5f = h5py.File(output_filename, 'w')
     h5f['sigma_vs_r']        = sigma_vs_r
     h5f['mm08_vs_r']         = mm08_vs_r
     h5f['mm08_e_vs_r']       = mm08_e_vs_r
@@ -91,8 +89,14 @@ def copy_group(output_file, input_file, group_name):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", nargs='+')
+    parser.add_argument("--force-redo", action='store_true')
     args = parser.parse_args()
 
     for filename in args.filenames:
-        print(filename)
-        gas_eccentricity_diagnostics(filename)
+        output_filename = filename.replace('diagnostics', 'eccentricity_measures')
+
+        if not os.path.exists(output_filename) and not args.force_redo:
+            print(f'{filename} -> {output_filename}')
+            gas_eccentricity_diagnostics(filename, output_filename)
+        else:
+            print(f'skipping {filename}: already exists')
