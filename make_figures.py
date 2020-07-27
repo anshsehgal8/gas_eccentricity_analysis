@@ -49,7 +49,7 @@ def get_eccentricity_time_series_kd06(rundir):
 
 
 def make_figure_eccentricity_time_series():
-    rundirs = [f for f in sorted(glob.glob('q_suite_v1_reduced/q????-sc-b64'))]
+    rundirs = [f for f in sorted(glob.glob('data/q_suite_v1_reduced/q????-sc-b64'))]
     colors = [plt.cm.viridis(n / len(rundirs)) for n in range(len(rundirs))]
 
     fig = plt.figure()
@@ -97,7 +97,7 @@ def make_figure_eccentricity_versus_q():
             print(f'warning: {rundir} was not fully evolved')
             return None
 
-    rundirs = [f for f in sorted(glob.glob('q_suite_v1_reduced/q????-sc-b64'))]
+    rundirs = [f for f in sorted(glob.glob('data/q_suite_v1_reduced/q????-sc-b64'))]
     es  = [x for x in [get_mean_es(rundir) for rundir in rundirs] if x]
     qs  = [e[0] for e in es]
     e1s = [e[1] for e in es]
