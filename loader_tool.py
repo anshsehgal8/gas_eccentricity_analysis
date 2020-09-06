@@ -51,6 +51,24 @@ def get_eccentricity_time_series_kd06(rundir):
 
 
 
+# def get_max_eccentricity_time_series_mm08(rundir):
+#     filenames   = sorted(glob.glob(os.path.join(rundir, 'eccentricity_measures.????.h5')))
+#     t           = np.array([h5py.File(f, 'r')['time']             [...] for f in filenames])
+#     max_e       = np.array([h5py.File(f, 'r')['mm08_e_vs_r']      [...] for f in filenames])
+#     #print(max_e.shape)
+#     return t[5:], max_e[5:]
+
+
+# def get_max_eccentricity_time_series_kd06(rundir):
+#     filenames   = sorted(glob.glob(os.path.join(rundir, 'eccentricity_measures.????.h5')))
+#     t           = np.array([h5py.File(f, 'r')['time']             [...] for f in filenames])
+#     max_e       = np.array([h5py.File(f, 'r')['kd06_e_vs_r']      [...] for f in filenames])
+#     #print(max_e.shape)
+#     return t[5:], max_e[5:]
+
+
+
+
 def get_disk_phase_time_series(rundir):
     t, e, w = get_eccentricity_time_series_mm08(rundir)
     dphi = np.diff(w)
@@ -84,6 +102,45 @@ def calc_precession_versus_q(alpha_key, saturation_orbit):
     qs  = [e[0] for e in phases]
     precessions = [e[1] for e in phases]
     return qs, precessions
+
+
+
+# def calc_max_eccentricity_versus_q(alpha_key, saturation_orbit):
+#     def get_mean_max_es(rundir):
+#         runid = rundir.split('/')[-1]
+#         q = int(runid[1:5]) / 10
+#         t_mm08, e1     = get_max_eccentricity_time_series_mm08(rundir)
+#         t_kd06, e2     = get_max_eccentricity_time_series_kd06(rundir)
+#         #new_e1 = e1.mean(axis=0)
+#         #new_e2 = e2.mean(axis=0)
+#         i1 = np.where(t_mm08 / 2 / np.pi > saturation_orbit)
+#         i2 = np.where(t_kd06 / 2 / np.pi > saturation_orbit)
+#         thing = np.array(e1[i1].mean(axis=0))
+#         print(thing.max())
+#         if len(i1[0]) > 10:
+#             e1_mean = e1[i1].mean()
+#             e2_mean = e2[i2].mean()
+#             e1_min  = e1[i1].min()
+#             e2_min  = e2[i2].min()
+#             e1_max  = e1[i1].max()
+#             e2_max  = e2[i2].max()
+#             return q, e1_mean, e2_mean, e1_min, e2_min, e1_max, e2_max
+#         else:
+#             print(f'warning: {runid} was not fully evolved')
+#             return None
+
+#     rundirs = [f for f in sorted(glob.glob(f'data/q_suite_v2/q????-{alpha_key}-b64'))]
+#     max_es           = [x for x in [get_mean_max_es(rundir) for rundir in rundirs] if x]
+#     max_qs           = [e[0] for e in max_es]
+#     max_e_mm08       = [e[1] for e in max_es]
+#     max_e_kd06       = [e[2] for e in max_es]
+#     max_e_mm08_mins  = [e[3] for e in max_es]
+#     max_e_kd06_mins  = [e[4] for e in max_es]
+#     max_e_mm08_maxs  = [e[5] for e in max_es]
+#     max_e_kd06_maxs  = [e[6] for e in max_es]
+
+#     return max_qs, max_e_mm08, max_e_kd06, max_e_mm08_mins, max_e_kd06_mins, max_e_mm08_maxs, max_e_kd06_maxs
+
 
 
 
@@ -125,7 +182,16 @@ def calc_eccentricity_versus_q(alpha_key, saturation_orbit):
 
 def write_totals_versus_q():
 
+    #max_qs, max_e_mm08, max_e_kd06, max_e_mm08_mins, max_e_kd06_mins, max_e_mm08_maxs, max_e_kd06_maxs = calc_max_eccentricity_versus_q('a04', 1800)
+    #plt.figure()
+    #plt.plot(max_qs, max_e_mm08, max_e_kd06)
+    #plt.xscale('log')
+    #plt.yscale('log')
+    #plt.show()
+
+
     for alpha_key, saturation_orbit in zip(alpha_keys, saturation_orbits):
+        max_qs, max_e_mm08, max_e_kd06, max_e_mm08_mins, max_e_kd06_mins, max_e_mm08_maxs, max_e_kd06_maxs = calc_max_eccentricity_versus_q(alpha_key, saturation_orbit)
         qs, e1s, e2s, e1mins, e2mins, e1maxs, e2maxs = calc_eccentricity_versus_q(alpha_key, saturation_orbit)
         qs_prec, precessions = calc_precession_versus_q(alpha_key, saturation_orbit)
 
@@ -139,6 +205,12 @@ def write_totals_versus_q():
         h5f['e2maxs']       = e2maxs
         h5f['qs_prec']      = qs_prec
         h5f['precessions']  = precessions
+        h5f['max_e_kd06']   = max_e_kd06
+        h5f['max_e_mm08']   = max_e_mm08
+        h5f['max_e_mm08_mins'] = max_e_mm08_mins
+        h5f['max_e_kd06_mins'] = max_e_kd06_mins
+        h5f['max_e_kd06_maxs'] = max_e_kd06_maxs
+        h5f['max_e_mm08_maxs'] = max_e_mm08_maxs
 
 
 
