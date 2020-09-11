@@ -88,7 +88,7 @@ def calc_precession_versus_q(alpha_key, saturation_orbit):
         t, e , w = get_eccentricity_time_series_mm08(rundir)
         t = t[0:-1]
         i = np.where(t / 2 / np.pi > saturation_orbit)
-        isat = int(saturation_orbit / 10)
+        isat = int(saturation_orbit / 15)
 
         if len(i[0]) > 10:
             cumphase_mean = (cumphase[-1] - cumphase[isat]) / (t[-1] - t[isat])
@@ -191,7 +191,7 @@ def write_totals_versus_q():
 
 
     for alpha_key, saturation_orbit in zip(alpha_keys, saturation_orbits):
-        max_qs, max_e_mm08, max_e_kd06, max_e_mm08_mins, max_e_kd06_mins, max_e_mm08_maxs, max_e_kd06_maxs = calc_max_eccentricity_versus_q(alpha_key, saturation_orbit)
+        #max_qs, max_e_mm08, max_e_kd06, max_e_mm08_mins, max_e_kd06_mins, max_e_mm08_maxs, max_e_kd06_maxs = calc_max_eccentricity_versus_q(alpha_key, saturation_orbit)
         qs, e1s, e2s, e1mins, e2mins, e1maxs, e2maxs = calc_eccentricity_versus_q(alpha_key, saturation_orbit)
         qs_prec, precessions = calc_precession_versus_q(alpha_key, saturation_orbit)
 
@@ -205,12 +205,7 @@ def write_totals_versus_q():
         h5f['e2maxs']       = e2maxs
         h5f['qs_prec']      = qs_prec
         h5f['precessions']  = precessions
-        h5f['max_e_kd06']   = max_e_kd06
-        h5f['max_e_mm08']   = max_e_mm08
-        h5f['max_e_mm08_mins'] = max_e_mm08_mins
-        h5f['max_e_kd06_mins'] = max_e_kd06_mins
-        h5f['max_e_kd06_maxs'] = max_e_kd06_maxs
-        h5f['max_e_mm08_maxs'] = max_e_mm08_maxs
+
 
 
 
