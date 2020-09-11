@@ -12,7 +12,7 @@ km_per_sec = 4.74 * 2 * np.pi # For a planet orbiting at 1 AU
 
 
 
-def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut):
+def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut, noise):
     """
     Doc string to come soon...
 
@@ -27,15 +27,16 @@ def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut):
     :param      radial_cut:     The radial cut
     :type       radial_cut:     { type_description }
     """
-    rc = loaders.get_dataset(filename, 'radius')
-    rc = loaders.get_dataset(filename, 'radius')
-    vx = loaders.get_dataset(filename, 'x_velocity')
-    vy = loaders.get_dataset(filename, 'y_velocity')
-    r0, r1 = radial_cut
+    rc   = loaders.get_dataset(filename, 'radius')
+    rc   = loaders.get_dataset(filename, 'radius')
+    vx   = loaders.get_dataset(filename, 'x_velocity')
+    vy   = loaders.get_dataset(filename, 'y_velocity')
+    dA   = loaders.get_dataset(filename, 'cell_area')
+    r0, r1  = radial_cut
     los_phi = line_of_sight * np.pi / 180.0
-    los_vel = (np.cos(los_phi) * vx + np.sin(los_phi) * vy) * km_per_sec
+    los_vel = ((np.cos(los_phi) * vx + np.sin(los_phi) * vy) * km_per_sec) + np.random.normal(loc=0,size=vx.shape,scale=noise)
 
-    line_amplitude, los_velocity_bins = np.histogram(los_vel[(rc > r0) * (rc < r1)].flatten(), bins=bins, density=True)
+    line_amplitude, los_velocity_bins = np.histogram(los_vel.flatten(), bins=bins, density=True, weights= (dA * (rc > r0) * (rc < r1)).flatten())
     ax1.step(los_velocity_bins[1:], line_amplitude)
     ax1.set_xlabel(r'$v \rm{[km/s]}$')
     ax1.set_ylabel('Flux [Arb.]')
@@ -57,10 +58,11 @@ if __name__ == "__main__":
     parser.add_argument("filename")
     parser.add_argument("--line-of-sight", "-l", type=float, default=0.0, help="Azimuthal line-of-sight angle in degrees")
     parser.add_argument("--radial-cut", "-r", type=str, default="1.5,5.0", help="Pair of floats [AU] indicating the radial annulus to include")
-    parser.add_argument("--bins", "-b", type=int, default=200, help="Number ofbins to use in the line profile histogram")
+    parser.add_argument("--bins", "-b", type=int, default=200, help="Number of bins to use in the line profile histogram")
+    parser.add_argument("--noise", "-n", type=int, default=4, help="Amount of Gaussian noise to be used in line profile")
     args = parser.parse_args()
 
     fig = plt.figure(figsize=[10, 10])
     ax1 = fig.add_subplot(1, 1, 1)
-    plot_line_profile(ax1, args.filename, args.line_of_sight, args.bins, eval(args.radial_cut))
+    plot_line_profile(ax1, args.filename, args.line_of_sight, args.bins, eval(args.radial_cut), args.noise)
     plt.show()
