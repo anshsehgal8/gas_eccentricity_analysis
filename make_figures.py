@@ -86,18 +86,18 @@ def make_figure_precession_versus_q():
 
 
 
-def plot_eccentricity_versus_q(ax1, ax2, filename, marker):
+def plot_eccentricity_versus_q(ax1, filename, marker, color, label):
 	qs      = h5py.File(filename, 'r')['qs']
 	e1s     = h5py.File(filename, 'r')['e1s']
-	e2s     = h5py.File(filename, 'r')['e2s']
+	#e2s     = h5py.File(filename, 'r')['e2s']
 	e1mins  = h5py.File(filename, 'r')['e1mins']
-	e2mins  = h5py.File(filename, 'r')['e2mins']
+	#e2mins  = h5py.File(filename, 'r')['e2mins']
 	e1maxs  = h5py.File(filename, 'r')['e1maxs']
-	e2maxs  = h5py.File(filename, 'r')['e2maxs'] 
-	ax1.plot(qs, e1s, marker = marker, markersize=8, color= 'black', linestyle='None',linewidth=0.5, mfc='None', label=filename[-6:-3])
-	ax2.plot(qs, e2s, marker = marker, markersize=8, color= 'black', linestyle='None',linewidth=0.5, mfc='None', label=filename[-6:-3])
-	ax1.fill_between(qs, e1mins, e1maxs, alpha=0.4)
-	ax2.fill_between(qs, e2mins, e2maxs, alpha=0.4)
+	#e2maxs  = h5py.File(filename, 'r')['e2maxs'] 
+	ax1.plot(qs, e1s, marker = marker, markersize=6, color= color, linestyle='None',linewidth=0.5, mfc='None', label=label)
+	#ax2.plot(qs, e2s, marker = marker, markersize=8, color= 'black', linestyle='None',linewidth=0.5, mfc='None', label=filename[-6:-3])
+	ax1.fill_between(qs, e1mins, e1maxs, alpha=0.3)
+	#ax2.fill_between(qs, e2mins, e2maxs, alpha=0.4)
 
 
 
@@ -142,31 +142,34 @@ def plot_eccentricity_versus_q(ax1, ax2, filename, marker):
 
 def make_figure_eccentricity_versus_q():
 	fig = plt.figure(figsize=[6.97,5.0])
-	ax1 = fig.add_subplot(1, 2, 1)
-	ax2 = fig.add_subplot(1, 2, 2)
+	ax1 = fig.add_subplot(1, 1, 1)
+	#ax2 = fig.add_subplot(1, 2, 2)
 	#filenames = ['data_to_plot_sc.h5']
 	filenames = ['data_to_plot_a02.h5', 'data_to_plot_a04.h5', 'data_to_plot_a08.h5', 'data_to_plot_a16.h5']
 	markers = ['+','^','.','*']
+	colors =  ['blue','orange','green','red']
+	labels = [r'$\alpha$ = 0.02', r'$\alpha$ = 0.04', r'$\alpha$ = 0.08', r'$\alpha$ = 0.16']
 	#markers = ['.']
 
 	
-	for filename, marker in zip(filenames,markers):
-		plot_eccentricity_versus_q(ax1, ax2, filename, marker)
+	for filename, marker, color, label in zip(filenames,markers,colors,labels):
+		plot_eccentricity_versus_q(ax1, filename, marker, color, label)
 	
 
 	ax1.set_xlabel(r'Planet Mass $[M_J]$')
-	ax2.set_xlabel(r'Planet Mass $[M_J]$')
+	#ax2.set_xlabel(r'Planet Mass $[M_J]$')
 	ax1.set_ylabel('Eccentricity measure')
-	ax1.set_title('MM08')
-	ax2.set_title('KD06')
+	#ax1.set_title('MM08')
+	#ax2.set_title('KD06')
 	ax1.set_ylim(1e-3, 1.0)
-	ax2.set_ylim(1e-3, 1.0)
+	#ax2.set_ylim(1e-3, 1.0)
 	ax1.set_xscale('log')
-	ax2.set_xscale('log')
+	#ax2.set_xscale('log')
 	ax1.set_yscale('log')
-	ax2.set_yscale('log')
+	#ax2.set_yscale('log')
 	ax1.legend()
-	ax2.legend()
+	plt.subplots_adjust(left=0.1,bottom=0.1,right=0.98,top=0.98)
+	#ax2.legend()
 	return fig
 
 

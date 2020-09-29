@@ -28,7 +28,6 @@ def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut, noise):
     :type       radial_cut:     { type_description }
     """
     rc   = loaders.get_dataset(filename, 'radius')
-    rc   = loaders.get_dataset(filename, 'radius')
     vx   = loaders.get_dataset(filename, 'x_velocity')
     vy   = loaders.get_dataset(filename, 'y_velocity')
     dA   = loaders.get_dataset(filename, 'cell_area')
