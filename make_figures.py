@@ -141,7 +141,7 @@ def plot_eccentricity_versus_q(ax1, filename, marker, color, label):
 
 
 def make_figure_eccentricity_versus_q():
-	fig = plt.figure(figsize=[6.97,5.0])
+	fig = plt.figure(figsize=[3.32088,3.85])
 	ax1 = fig.add_subplot(1, 1, 1)
 	#ax2 = fig.add_subplot(1, 2, 2)
 	#filenames = ['data_to_plot_sc.h5']
@@ -168,7 +168,7 @@ def make_figure_eccentricity_versus_q():
 	ax1.set_yscale('log')
 	#ax2.set_yscale('log')
 	ax1.legend()
-	plt.subplots_adjust(left=0.1,bottom=0.1,right=0.98,top=0.98)
+	plt.subplots_adjust(left=0.165,bottom=0.12,right=0.98,top=0.98)
 	#ax2.legend()
 	return fig
 
