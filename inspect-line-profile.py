@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+###############################################################
+# This script generates line profiles at a glance from a given 
+# diagnostic files
+#
+#
+#
+###############################################################
+
+
 import argparse
 import numpy as np
 import scipy.optimize
@@ -8,7 +17,6 @@ import matplotlib.pyplot as plt
 import loaders
 
 km_per_sec = 4.74 * 2 * np.pi # For a planet orbiting at 1 AU
-
 
 
 

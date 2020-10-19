@@ -101,43 +101,6 @@ def plot_eccentricity_versus_q(ax1, filename, marker, color, label):
 
 
 
-# def plot_max_eccentricity_versus_q(ax1, ax2, filename, marker):
-# 	qs      = h5py.File(filename, 'r')['qs']
-# 	max_e_kd06 = h5py.File(filename, 'r')['max_e_kd06']
-# 	max_e_mm08 = h5py.File(filename, 'r')['max_e_mm08']
-# 	max_e_mm08_mins = h5py.File(filename, 'r')['max_e_mm08_mins']
-# 	max_e_kd06_mins = h5py.File(filename, 'r')['max_e_kd06_mins']
-# 	max_e_kd06_maxs = h5py.File(filename, 'r')['max_e_kd06_maxs']
-# 	max_e_mm08_maxs = h5py.File(filename, 'r')['max_e_mm08_maxs']
-# 	ax1.plot(qs, max_e_mm08, marker = marker, markersize=8, color= 'black', linestyle='None',linewidth=0.5, mfc='None', label=filename[-6:-3])
-# 	ax2.plot(qs, max_e_kd06, marker = marker, markersize=8, color= 'black', linestyle='None',linewidth=0.5, mfc='None', label=filename[-6:-3])
-# 	ax1.fill_between(qs, max_e_mm08_mins, max_e_mm08_maxs, alpha=0.4)
-# 	ax2.fill_between(qs, max_e_kd06_mins, max_e_kd06_maxs, alpha=0.4)
-
-
-# def make_figure_max_eccentricity_versus_q():
-# 	fig = plt.figure(figsize=[6.97,5.0])
-# 	ax1 = fig.add_subplot(1, 2, 1)
-# 	ax2 = fig.add_subplot(1, 2, 2)
-# 	filenames = ['data_to_plot_a02.h5', 'data_to_plot_a04.h5', 'data_to_plot_a08.h5', 'data_to_plot_a16.h5']
-# 	markers = ['+','^','.','*']
-# 	for filename, marker in zip(filenames,markers):
-# 		plot_max_eccentricity_versus_q(ax1, ax2, filename, marker)
-	
-# 	ax1.set_xlabel(r'Planet Mass $[M_J]$')
-# 	ax2.set_xlabel(r'Planet Mass $[M_J]$')
-# 	ax1.set_ylabel('Eccentricity measure')
-# 	ax1.set_title('MM08')
-# 	ax2.set_title('KD06')
-# 	ax1.set_ylim(1e-3, 1.0)
-# 	ax2.set_ylim(1e-3, 1.0)
-# 	ax1.set_xscale('log')
-# 	ax2.set_xscale('log')
-# 	ax1.set_yscale('log')
-# 	ax2.set_yscale('log')
-# 	ax1.legend()
-# 	ax2.legend()
-# 	return fig
 
 
 def make_figure_eccentricity_versus_q():

@@ -13,7 +13,7 @@ from matplotlib import cm
 def plot_e_vs_r(filename,ax,color):
     e_vs_r = np.array(h5py.File(filename, 'r')['mm08_e_vs_r'])
     domain_radius = np.array(h5py.File(filename, 'r')['run_config']['domain_radius'])
-    r = np.linspace(0, domain_radius, len(e_vs_r)) #Domain Radius of 24
+    r = np.linspace(0, domain_radius, len(e_vs_r))
     ax.plot(r, e_vs_r, label=filename[-37:-34], color=color)
     ax.set_xscale('log')
     ax.set_yscale('log')

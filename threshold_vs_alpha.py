@@ -35,12 +35,12 @@ configure_matplotlib(hardcopy=True)
 
 x  = [0.02,0.04,0.08,0.1,0.16]  #Alpha values
 y1 = [0.02,0.03,0.055,0.075,0.115] # Our resulting Q thresholds
-y2 = [0.046,0.052,0.128,0.14,0.143] # Corresponding Eccentricity amplitudes
+y2 = [0.072,0.08,0.128,0.14,0.143] # Corresponding Eccentricity amplitudes
 
 
 x_kd06  = [0.02,0.04,0.08,0.16]  #Alpha values
 y1_kd06 = [0.02,0.03,0.06,0.11] # Our resulting Q thresholds
-y2_kd06 = [0.055,0.066,0.148,0.166] # Corresponding Eccentricity amplitudes
+y2_kd06 = [0.11,0.135,0.27,0.29] # Corresponding Eccentricity amplitudes
 
 
 

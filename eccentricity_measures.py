@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+
+###############################################
+#  Data reduction script. Takes diagnostic files, 
+#  performs eccentricity calculations,
+#  and saves them to new H5 files.
+#
+##############################################
+
 import argparse
 import os
 import pickle
@@ -37,7 +45,7 @@ def gas_eccentricity_diagnostics(filename, output_filename):
     vrm1dM, _ = np.histogram(r, weights=dM * vr * np.exp(1.j * phi), bins=rbins)
     vpdM,   _ = np.histogram(r, weights=dM * vp,                     bins=rbins)
 
-    # For each checkpoint, we need to generate a file containing these measurements:
+    # For each checkpoint, we generate a file containing these measurements:
     # 1. Surface density radial profile
     # 2. MM08 as a function of r
     # 3. KD06 as a function of r

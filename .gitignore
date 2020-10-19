@@ -5,3 +5,4 @@ __pycache__
 figures
 *.png
 *.pdf
+*.ipynb
