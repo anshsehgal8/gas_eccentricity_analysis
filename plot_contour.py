@@ -3,90 +3,55 @@ import argparse
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+import loaders
+import cv2
+
+def load_data(filename):
+	h5f = h5py.File(filename, 'r')
+	domain_radius = np.array(h5f['run_config']['domain_radius'])
+	block_size    = np.array(h5f['run_config']['block_size'])
+	depth         = np.array(h5f['run_config']['depth'])
+	real_depth = depth - 1
+	step  = (2 * domain_radius)/(2**real_depth * block_size)
+	vertices = h5f['vertices'].values()
+	helpers = loaders.HelperFunctions()
+	xc = np.array([helpers.cell_center_x_array(g[...]) for g in vertices])
+	yc = np.array([helpers.cell_center_y_array(g[...]) for g in vertices])
+	mass = loaders.get_dataset(filename, 'mass')
+	bins = np.linspace(-96 * step ,96 * step,193)
+
+	counts, xedges, yedges = np.histogram2d(xc.flatten(),yc.flatten(),weights=mass.flatten(),bins=bins)
+	plt.imshow(counts)
+	plt.show()
 
 
 
-
-def get_ranges(args):
-    """
-    @brief      Return the vmin and vmax keywords for fields.
-    
-    @param      args  The arguments (argparse result)
-    
-    @return     The vmin/vmax values
-    """
-    return dict(
-        sigma_range=eval(args.sigma, dict(default=[ -6.5,-4.5])),
-        vr_range   =eval(args.vr,    dict(default=[ -0.5, 0.5])),
-        vp_range   =eval(args.vp,    dict(default=[  0.0, 2.0])))
+def fit_func(x,y,a,b,phi):
+	return (x/a)**2 + (y/b)**2
 
 
 
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument("filename")
+	args = parser.parse_args()
+	load_data(args.filename)
 
-def plot_single_block(ax, h5_verts, h5_values, edges=False, **kwargs):
-    X = h5_verts[...][:,:,0]
-    Y = h5_verts[...][:,:,1]
-    Z = h5_values[...]
+# image = cv2.imread('figures/q0600-a08.png')
+# window_name = 'Image'
+# cv2.namedWindow(window_name,cv2.WINDOW_NORMAL)
+# center_coordinates = (1045,961)
+# axesLength = (419,385)
+# a = min(axesLength[0],axesLength[1])
+# b = max(axesLength[0],axesLength[1])
+# e = np.sqrt(1. - (a / b)**2 )
+# print(e)
+# angle = 0
+# startAngle = 0
+# endAngle = 360
+# color = (0,0,255)
+# thickness = 5
 
-    if edges:
-        Xb = X[::X.shape[0]//2, ::X.shape[1]//2]
-        Yb = Y[::Y.shape[0]//2, ::Y.shape[1]//2]
-        Zb = np.zeros_like(Xb + Yb)
-        ax.pcolormesh(Xb, Yb, Zb, edgecolor=(1.0, 0.0, 1.0, 0.3))
-
-    return ax.pcolormesh(X, Y, Z, **kwargs)
-
-
-
-
-def fit_func(x, y, a, b, phi):
-    return (x / a)**2 + (y / b)**2
-
-
-
-def plot_single_file_sigma_only(fig,filename,depth=0,edges=False,sigma_range=[None, None],vr_range=[None, None],vp_range=[None, None]):
-
-    ax, cax = fig.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [19, 1]})
-    h5f = h5py.File(filename, 'r')
-
-    for block_index in h5f['vertices']:
-
-        if int(block_index[0]) < depth:
-            continue
-
-        verts = h5f['vertices'][block_index]
-        ls = np.log10(h5f['sigma'][block_index])
-        m0 = plot_single_block(ax, verts, ls, edges=edges, cmap='inferno', vmin=sigma_range[0], vmax=sigma_range[1])
-        #Z = fit_func(X,Y,a,b,phi)
-
-
-    fig.colorbar(m0, cax=cax, orientation='horizontal')
-
-    ax.set_title(r'$\log_{10} \Sigma$')
-    ax.set_xlabel(r'$x$')
-    ax.set_ylabel(r'$y$')
-    ax.set_aspect('equal')
-    ax.set_xticks([])
-
-    return fig
-
-
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("filenames", nargs='+')
-    parser.add_argument("--sigma", default="default", type=str)
-    parser.add_argument("--depth", default=0, type=int)
-    parser.add_argument("--edges", action='store_true')
-    parser.add_argument("--vr", default="default", type=str)
-    parser.add_argument("--vp", default="default", type=str)
-
-    args = parser.parse_args()
-
-    for filename in args.filenames:
-        fig = plt.figure(figsize=[5,5])
-        plot_single_file_sigma_only(fig, filename, edges=args.edges, depth=args.depth, **get_ranges(args))
-        plt.show()
-
-
+# image = cv2.ellipse(image,center_coordinates,axesLength,angle,startAngle,endAngle,color,thickness)
+# cv2.imshow(window_name,image)
+# cv2.waitKey()

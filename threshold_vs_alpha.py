@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 ###########################################
 ###########################################
-# MM08 PLOT
+# Threshold Mass Ratio vs. Alpha
 ###########################################
 
 
@@ -74,17 +74,37 @@ plt.text(0.0044,0.0039, 'Teyssandier 17',fontsize=9.)
 
 
 #Ragusa 2020
-plt.plot(0.005,0.05, marker='.')
+plt.plot(0.005,0.05, marker='*')
 plt.text(0.0045, 0.06, 'Ragusa 20', fontsize=9.)
+
+#Ragusa 2017
+plt.plot(0.001,0.013, marker='*')
+plt.text(0.001,0.015, 'Ragusa 17', fontsize=9.)
+
+#Dunhill 2012
+plt.plot(0.01,0.02, marker='*')
+plt.text(0.009,0.022, 'Dunhill 12', fontsize=9.)
+
+#Papaloizou 2001
+plt.errorbar(0.004,0.015,0.005, marker='*')
+plt.text(0.0034, 0.022, 'Papaloizou 01',fontsize=9.)
+
+#Bitsch 2013
+plt.plot(0.005,0.005, marker='.')
+plt.text(0.0048,0.0052, 'Bitsch 13', fontsize=9.)
+
+
+#Muley 2019
+plt.errorbar(0.001,0.003,0.001, marker='.')
+plt.text(0.0008,0.0042, 'Muley 19', fontsize=9.)
 
 plt.plot(x_kd06,y1_kd06, marker='.', label='AMD')
 plt.legend(loc='lower right',fontsize=9.)
-
 plt.subplots_adjust(bottom=0.14, right=0.95, top=0.97, left=0.2)
 #plt.tight_layout()
 
 ########################################
-#### PLOT 2 ############################
+#### E Amplitude vs. Alpha #############
 ########################################
 
 
