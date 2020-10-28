@@ -46,6 +46,7 @@ y2_kd06 = [0.11,0.135,0.27,0.29] # Corresponding Eccentricity amplitudes
 
 
 fig = plt.figure(1, figsize=[3.32088,3.32088])
+#fig = plt.figure(1, figsize=[6.97385,5])
 
 
 #Farris 2014
@@ -66,32 +67,32 @@ plt.yscale('log')
 
 #Kley-Dirksen result
 plt.plot(0.004,0.003, marker='.')
-plt.text(0.0034,0.0034,'Kley 06',fontsize=9.)
+plt.text(0.0033,0.0025,'Kley 06',fontsize=9.)
 
 #Teyssandier 2017
 plt.plot(0.005,0.0035, marker='.')
-plt.text(0.0044,0.0039, 'Teyssandier 17',fontsize=9.)
+plt.text(0.0041,0.0039, 'Teyssandier 17',fontsize=9.)
 
 
 #Ragusa 2020
-plt.plot(0.005,0.05, marker='*')
-plt.text(0.0045, 0.06, 'Ragusa 20', fontsize=9.)
+# plt.plot(0.005,0.05, marker='*')
+# plt.text(0.0045, 0.06, 'Ragusa 20', fontsize=9.)
 
 #Ragusa 2017
-plt.plot(0.001,0.013, marker='*')
-plt.text(0.001,0.015, 'Ragusa 17', fontsize=9.)
+# plt.plot(0.001,0.013, marker='*')
+# plt.text(0.001,0.015, 'Ragusa 17', fontsize=9.)
 
 #Dunhill 2012
-plt.plot(0.01,0.02, marker='*')
-plt.text(0.009,0.022, 'Dunhill 12', fontsize=9.)
+# plt.plot(0.01,0.02, marker='*')
+# plt.text(0.009,0.022, 'Dunhill 12', fontsize=9.)
 
 #Papaloizou 2001
-plt.errorbar(0.004,0.015,0.005, marker='*')
-plt.text(0.0034, 0.022, 'Papaloizou 01',fontsize=9.)
+# plt.errorbar(0.004,0.015,0.005, marker='*')
+# plt.text(0.0034, 0.022, 'Papaloizou 01',fontsize=9.)
 
 #Bitsch 2013
 plt.plot(0.005,0.005, marker='.')
-plt.text(0.0048,0.0052, 'Bitsch 13', fontsize=9.)
+plt.text(0.0044,0.0053, 'Bitsch 13', fontsize=9.)
 
 
 #Muley 2019
