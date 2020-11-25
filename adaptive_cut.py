@@ -23,16 +23,21 @@ def get_global_e(filename):
 	kd06_e_vs_r   = np.array(h5py.File(filename, 'r')['kd06_e_vs_r'])
 	sigma_vs_r    = np.array(h5py.File(filename, 'r')['sigma_vs_r'])
 	domain_radius = np.array(h5py.File(filename, 'r')['run_config']['domain_radius'])
+	mass_ratio    = np.array(h5py.File(filename, 'r')['run_config']['mass_ratio'])
+	hill_radius   = (3 * mass_ratio)**(0.33)
+	cutoff  = 1. + 2 * hill_radius
+	min_index = int(cutoff * 10)
 	r = np.linspace(0, domain_radius, len(sigma_vs_r))
-	max_sigma_r =  np.argmax(sigma_vs_r)
+	max_sigma_r =  np.argmax(sigma_vs_r[4:])
 	min_sigma_r =  np.argmin(sigma_vs_r[0:50])
 	mm08_e_small = np.mean(mm08_e_vs_r[12:18])
 	mm08_e_large = np.mean(mm08_e_vs_r[17:54])
-	mm08_e_adaptive = np.mean(mm08_e_vs_r[min_sigma_r:max_sigma_r])
+	mm08_e_adaptive = np.mean(mm08_e_vs_r[min_index:25])
 	kd06_e_small = np.mean(kd06_e_vs_r[12:18])
 	kd06_e_large = np.mean(kd06_e_vs_r[17:54])
-	kd06_e_adaptive = np.mean(kd06_e_vs_r[min_sigma_r:max_sigma_r])
-	return mm08_e_small,mm08_e_large,mm08_e_adaptive
+	kd06_e_adaptive = np.mean(kd06_e_vs_r[min_index:25])
+	#return mm08_e_small,mm08_e_large,mm08_e_adaptive
+	return kd06_e_small,kd06_e_large,kd06_e_adaptive
 
 
 
@@ -66,7 +71,7 @@ if __name__ == "__main__":
 
 
 
-	rundirs = [f for f in sorted(glob.glob(f'data/q_suite_v2/q????-a08-b64'))]
+	rundirs = [f for f in sorted(glob.glob(f'data/q_suite_v2/q????-a16-b64'))]
 
 	es_small = []
 	min_es_small = []
