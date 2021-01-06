@@ -51,24 +51,6 @@ def get_eccentricity_time_series_kd06(rundir):
 
 
 
-# def get_max_eccentricity_time_series_mm08(rundir):
-#     filenames   = sorted(glob.glob(os.path.join(rundir, 'eccentricity_measures.????.h5')))
-#     t           = np.array([h5py.File(f, 'r')['time']             [...] for f in filenames])
-#     max_e       = np.array([h5py.File(f, 'r')['mm08_e_vs_r']      [...] for f in filenames])
-#     #print(max_e.shape)
-#     return t[5:], max_e[5:]
-
-
-# def get_max_eccentricity_time_series_kd06(rundir):
-#     filenames   = sorted(glob.glob(os.path.join(rundir, 'eccentricity_measures.????.h5')))
-#     t           = np.array([h5py.File(f, 'r')['time']             [...] for f in filenames])
-#     max_e       = np.array([h5py.File(f, 'r')['kd06_e_vs_r']      [...] for f in filenames])
-#     #print(max_e.shape)
-#     return t[5:], max_e[5:]
-
-
-
-
 def get_disk_phase_time_series(rundir):
     t, e, w = get_eccentricity_time_series_mm08(rundir)
     dphi = np.diff(w)

@@ -40,7 +40,7 @@ y2 = [0.072,0.08,0.128,0.14,0.143] # Corresponding Eccentricity amplitudes
 
 x_kd06  = [0.02,0.04,0.08,0.16]  #Alpha values
 y1_kd06 = [0.02,0.03,0.06,0.11] # Our resulting Q thresholds
-y2_kd06 = [0.11,0.135,0.27,0.29] # Corresponding Eccentricity amplitudes
+y2_kd06 = [0.132,0.155,0.291,0.326] # Corresponding Eccentricity amplitudes
 
 
 
@@ -51,7 +51,7 @@ fig = plt.figure(1, figsize=[3.32088,3.32088])
 
 #Farris 2014
 plt.plot(0.1,0.1, marker='.')
-plt.text(0.09,0.11,'Farris 14', fontsize=9.)
+plt.text(0.05,0.11,'Farris 14', fontsize=9.)
 
 # #D'Orazio 18
 # plt.plot(0.00001,0.04, marker='.')
@@ -67,7 +67,7 @@ plt.yscale('log')
 
 #Kley-Dirksen result
 plt.plot(0.004,0.003, marker='.')
-plt.text(0.0033,0.0025,'Kley 06',fontsize=9.)
+plt.text(0.0031,0.0023,'Kley 06',fontsize=9.)
 
 #Teyssandier 2017
 plt.plot(0.005,0.0035, marker='.')
@@ -127,7 +127,7 @@ plt.legend(fontsize=9.)
 
 #Farris 2014
 plt.plot(0.1,0.11, marker='.', color='black')
-plt.text(0.09,0.12,'Farris 14', fontsize=9.)
+plt.text(0.08,0.10,'Farris 14', fontsize=9.)
 
 #Teyssandier 2017
 plt.plot(0.005,0.1, marker='+', color='blue')
