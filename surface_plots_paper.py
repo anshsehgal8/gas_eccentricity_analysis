@@ -24,7 +24,7 @@ def plot_sigma(ax, filename):
         X = h5f['vertices'][block_index][...][:,:,0]
         Y = h5f['vertices'][block_index][...][:,:,1]
         S = h5f['sigma'][block_index]
-        cm = ax.pcolormesh(X, Y, np.log10(S), vmin=-7.9, vmax=-4.1, cmap='inferno')
+        cm = ax.pcolormesh(X, Y, np.log10(S), vmin=-7.9, vmax=-5.1, cmap='inferno')
         cm.set_rasterized(True)
     return cm
 
