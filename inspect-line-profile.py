@@ -69,7 +69,7 @@ def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut, noise, labe
 
     print("Asymmetry : ", asymmetry)
 
-    ax.fill_between(los_velocity_bins[1:],line_amplitude,0,alpha=0.3,color='black')
+    ax.fill_between(los_velocity_bins[1:],line_amplitude,0,alpha=0.3,color='black', step= 'pre')
     #ax.legend(loc='upper left')
     ax.text(-50,0.022, label, fontsize=6.5)
     ax.text(22.1,0.022, dv, fontsize=6.5)
