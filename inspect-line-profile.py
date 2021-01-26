@@ -58,18 +58,24 @@ def plot_line_profile(ax, filename, line_of_sight, bins, radial_cut, noise, labe
     los_vel = ((np.cos(los_phi) * vx + np.sin(los_phi) * vy) * km_per_sec) + gaussian_noise
 
     line_amplitude, los_velocity_bins = np.histogram(los_vel.flatten(), bins=bins, density=True, weights= (dA * (rc > r0) * (rc < r1)).flatten())
-    ax.step(los_velocity_bins[1:], line_amplitude, color='black')
+    ax.step(los_velocity_bins[1:], line_amplitude, color='black', linewidth=0.8)
     
 
-    asymmetry = abs(np.max(line_amplitude[0:100]) - np.max(line_amplitude[100:]))
+    dF = abs(np.max(line_amplitude[0:100]) - np.max(line_amplitude[100:]))
+    F_rms = np.sqrt(np.mean(line_amplitude**2))
+    #print(F_rms)
+    asymmetry = dF / F_rms
+
+
     print("Asymmetry : ", asymmetry)
 
     ax.fill_between(los_velocity_bins[1:],line_amplitude,0,alpha=0.3,color='black')
     #ax.legend(loc='upper left')
-    ax.text(-50,0.022, label)
-    ax.text(23,0.022, dv, fontsize=6)
-    ax.text(26,0.010, amd, fontsize=6)
-    ax.text(26,0.014, rvm, fontsize=6)
+    ax.text(-50,0.022, label, fontsize=6.5)
+    ax.text(22.1,0.022, dv, fontsize=6.5)
+    ax.text(26,0.009, amd, fontsize=6.5)
+    ax.text(26,0.014, rvm, fontsize=6.5)
+    ax.set_ylim(0,0.033)
 
 
     # def double_gaussian(x, x0, x1, y0, y1, s0, s1):
@@ -110,12 +116,12 @@ if __name__ == "__main__":
     ax4.set_ylabel('Flux [Arb.]')
     ax6.set_xlabel(r'$v \rm{[km/s]}$')
     theta_range = np.linspace(0,180,19)
-    plot_line_profile(ax1, filenames[0], 15, args.bins, eval(args.radial_cut), args.noise, 'q = 0.005', r'$\Delta v_{l-r}$ = 0.00199', r'$e_{amd}$ = 0.01', r'$e_{rvm}$ = 0.0035')
-    plot_line_profile(ax2, filenames[1], 30, args.bins, eval(args.radial_cut), args.noise, 'q = 0.01',  r'$\Delta v_{l-r}$ = 0.00183', r'$e_{amd}$ = 0.02', r'$e_{rvm}$ = 0.008')
-    plot_line_profile(ax3, filenames[2], 280, args.bins, eval(args.radial_cut), args.noise,'q = 0.02',  r'$\Delta v_{l-r}$ = 0.00227', r'$e_{amd}$ = 0.135', r'$e_{rvm}$ = 0.062')
-    plot_line_profile(ax4, filenames[3], 150, args.bins, eval(args.radial_cut), args.noise,'q = 0.04',  r'$\Delta v_{l-r}$ = 0.00474', r'$e_{amd}$ = 0.205', r'$e_{rvm}$ = 0.09')
-    plot_line_profile(ax5, filenames[4], 280, args.bins, eval(args.radial_cut), args.noise,'q = 0.08',  r'$\Delta v_{l-r}$ = 0.00874', r'$e_{amd}$ = 0.34', r'$e_{rvm}$ = 0.126')
-    plot_line_profile(ax6, filenames[5], 130, args.bins, eval(args.radial_cut), args.noise,'q = 0.16',  r'$\Delta v_{l-r}$ = 0.01304', r'$e_{amd}$ = 0.52', r'$e_{rvm}$ = 0.155')
+    plot_line_profile(ax1, filenames[0], 15, args.bins, eval(args.radial_cut), args.noise, r'$q = 0.005$', r'$\delta F / F_{\rm rms}$ = 0.197', r'$e_{\rm amd}$ = 0.01', r'$e_{\rm rvm}$ = 0.0035')
+    plot_line_profile(ax2, filenames[1], 30, args.bins, eval(args.radial_cut), args.noise, r'$q = 0.01$',  r'$\delta F / F_{\rm rms}$ = 0.181', r'$e_{\rm amd}$ = 0.02', r'$e_{\rm rvm}$ = 0.008')
+    plot_line_profile(ax3, filenames[2], 280, args.bins, eval(args.radial_cut), args.noise,r'$q = 0.02$',  r'$\delta F / F_{\rm rms}$ = 0.221', r'$e_{\rm amd}$ = 0.135', r'$e_{\rm rvm}$ = 0.062')
+    plot_line_profile(ax4, filenames[3], 150, args.bins, eval(args.radial_cut), args.noise,r'$q = 0.04$',  r'$\delta F / F_{\rm rms}$ = 0.479', r'$e_{\rm amd}$ = 0.205', r'$e_{\rm rvm}$ = 0.09')
+    plot_line_profile(ax5, filenames[4], 280, args.bins, eval(args.radial_cut), args.noise,r'$q = 0.08$',  r'$\delta F / F_{\rm rms}$ = 0.852', r'$e_{\rm amd}$ = 0.34', r'$e_{\rm rvm}$ = 0.126')
+    plot_line_profile(ax6, filenames[5], 130, args.bins, eval(args.radial_cut), args.noise,r'$q = 0.16$',  r'$\delta F / F_{\rm rms}$ = 1.26', r'$e_{\rm amd}$ = 0.52', r'$e_{\rm rvm}$ = 0.155')
     plt.subplots_adjust(left=0.165,bottom=0.077,right=0.96,top=0.98)
     ax1.set_xlim(-60,60)
     plt.show()
